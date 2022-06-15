@@ -11,7 +11,7 @@ struct Especie
 struct Fornecedor
 {
     string nome;
-    Especie produto;
+    string produto;
     int telefone;
 };
 
@@ -26,7 +26,7 @@ class Chacara
         void novoFornecedor(string nome, string produto, int telefone);
         void listaEspecies();
         void listaFornecedores();
-        Fornecedor buscaForcenedor(string produto);
+        void buscaForcenedor(string produto);
     private:
         int totalEspecies;
         int totalFornecedores;
@@ -57,14 +57,39 @@ int main(){
         int tempoProd;
         cout << "Nome: "; cin >> nome;
         cout << "Período de plantio: "; cin >> periodo;
-        cout << "Tempo de produção (meses): "; cin >> tempoProd;
+        cout << "Tempo de produção: "; cin >> tempoProd;
         chacara.novaEspecie(nome, periodo, tempoProd);
+        break;
+    }
+    case 2:{
+        string nome;
+        string produto;
+        int telefone;
+        cout << "Nome: "; cin >> nome;
+        cout << "Produto de interesse: "; cin >> produto;
+        cout << "Telefone (somente números): "; cin >> telefone;
+        chacara.novoFornecedor(nome, produto, telefone);
         break;
     }
     case 3:{
         chacara.listaEspecies();
+        break;
     }
+    case 4:{
+        chacara.listaFornecedores();
+        break;
+    }
+    case 5:{
+        string busca;
+        cout << "Produto fornecido: "; cin >> busca;
+        chacara.buscaForcenedor(busca);
+        break;
+    }
+    case 6:
+        saida = false;
+        break;
     default:
+        cout << "Opção inválida\n\n";
         break;
     }
     }
@@ -73,18 +98,29 @@ int main(){
 
 
 void Chacara::novaEspecie(string nome, string periodo, int tempoProd){
- if(totalEspecies=10)
+ if(totalEspecies>=10)
  {
     cout << "Máximo de espécies cadastradas\n";
     return;
  }
- Especie model;
- model.nome=nome;
- model.periodo=periodo;
- model.tempoProd=tempoProd;
- especiesCadastradas[totalEspecies]=model;
+ especiesCadastradas[totalEspecies].nome=nome;
+ especiesCadastradas[totalEspecies].periodo=periodo;
+ especiesCadastradas[totalEspecies].tempoProd=tempoProd;
  totalEspecies+=1;
  cout << "Especie cadastrada";
+}
+
+void Chacara::novoFornecedor(string nome, string produto, int telefone){
+ if(totalFornecedores>=10)
+ {
+    cout << "Máximo de fornecedores cadastrados\n";
+    return;
+ }
+ fornecedoresCadastrados[totalFornecedores].nome=nome;
+ fornecedoresCadastrados[totalFornecedores].produto=produto;
+ fornecedoresCadastrados[totalFornecedores].telefone=telefone;
+ totalFornecedores+=1;
+ cout << "Fonrecedor cadastrado";
 }
 
 void Chacara::listaEspecies(){
@@ -92,6 +128,25 @@ void Chacara::listaEspecies(){
         cout << "Espécie " << i+1 << endl
             << "Nome: " << especiesCadastradas[i].nome << endl
             << "Período de plantio: " << especiesCadastradas[i].periodo << endl
-            << "Tempo de produção: " << especiesCadastradas[i].tempoProd << "meses" << endl;
+            << "Tempo de produção: " << especiesCadastradas[i].tempoProd << " meses\n" << endl;
+    }
+}
+
+void Chacara::listaFornecedores(){
+    for(int i=0; i<totalFornecedores; i++){
+        cout << "Fornecedor " << i+1 << endl
+            << "Nome: " << fornecedoresCadastrados[i].nome << endl
+            << "Produto de interesse: " << fornecedoresCadastrados[i].produto << endl
+            << "telefone: " << fornecedoresCadastrados[i].telefone << endl;
+    }
+}
+
+void Chacara::buscaForcenedor(string produto){
+    cout << "Fornecedores encontrados: \n";
+    for(int i=0; i<totalFornecedores; i++){
+        if(fornecedoresCadastrados[i].produto==produto)
+        {
+            cout << fornecedoresCadastrados[i].nome << endl;
+        }
     }
 }
